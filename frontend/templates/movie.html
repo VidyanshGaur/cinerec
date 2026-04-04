@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}{{ movie.title }} - CineRec{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>{{ movie.title }}</h2>
+        <p><span class="badge bg-secondary">{{ movie.genres }}</span></p>
+        <p><span class="text-warning">★</span> {{ "%.1f"|format(movie.avg_rating) }} 
+           <span class="text-muted">({{ movie.rating_count }} ratings)</span></p>
+
+        <div class="card p-3 mt-3">
+            <h5>Your Rating</h5>
+            <div class="star-rating" id="starRating">
+                {% for i in range(1, 6) %}
+                <span data-value="{{ i }}" 
+                      class="{% if user_rating and user_rating.score >= i %}active{% endif %}">★</span>
+                {% endfor %}
+            </div>
+            <input type="hidden" id="selectedRating" value="{{ user_rating.score if user_rating else 0 }}">
+            <button class="btn btn-primary mt-2 w-50" onclick="submitRating()">
+                {{ 'Update Rating' if user_rating else 'Rate This Movie' }}
+            </button>
+            <p id="ratingMsg" class="mt-2 text-success"></p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Movie Info</h5>
+            <p><strong>Genre:</strong> {{ movie.genres }}</p>
+            <p><strong>Avg Rating:</strong> {{ "%.2f"|format(movie.avg_rating) }}</p>
+            <p><strong>Total Ratings:</strong> {{ movie.rating_count }}</p>
+            <a href="/browse" class="btn btn-outline-light w-100 mt-2">← Back to Browse</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const stars = document.querySelectorAll('#starRating span');
+let selected = parseInt(document.getElementById('selectedRating').value) || 0;
+
+stars.forEach(star => {
+    star.addEventListener('mouseover', function() {
+        stars.forEach(s => s.classList.remove('active'));
+        for (let i = 0; i <= this.dataset.value - 1; i++) {
+            stars[i].classList.add('active');
+        }
+    });
+    star.addEventListener('mouseout', function() {
+        stars.forEach((s, i) => {
+            s.classList.toggle('active', i < selected);
+        });
+    });
+    star.addEventListener('click', function() {
+        selected = parseInt(this.dataset.value);
+        document.getElementById('selectedRating').value = selected;
+    });
+});
+
+function submitRating() {
+    const score = document.getElementById('selectedRating').value;
+    if (!score || score == 0) {
+        alert('Please select a rating first');
+        return;
+    }
+    const formData = new FormData();
+    formData.append('movie_id', {{ movie.id }});
+    formData.append('score', score);
+
+    fetch('/rate', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('ratingMsg').textContent = 
+                    '✓ Rating saved! Avg: ' + data.avg_rating;
+            }
+        });
+}
+</script>
+{% endblock %}

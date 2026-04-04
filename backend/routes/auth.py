@@ -1,6 +1,6 @@
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required, current_user
-from models import db, User
+from flask import Blueprint, request, render_template, redirect, url_for, flash
+from flask_login import login_user, logout_user, login_required
+from backend.models import db, User
 import bcrypt
 
 auth_bp = Blueprint('auth', __name__)
@@ -12,14 +12,11 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        # Check if email exists
         if User.query.filter_by(email=email).first():
             flash('Email already registered', 'error')
             return redirect(url_for('auth.register'))
 
-        # Hash password
         password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
         user = User(name=name, email=email, password_hash=password_hash)
         db.session.add(user)
         db.session.commit()
@@ -34,7 +31,6 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-
         user = User.query.filter_by(email=email).first()
 
         if not user or not bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):

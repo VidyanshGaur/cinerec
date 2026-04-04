@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Browse - CineRec{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🎬 Browse Movies</h2>
+
+<form method="GET" action="/browse" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control bg-dark text-white border-secondary" 
+               placeholder="Search movies..." value="{{ search }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if search %}
+        <a href="/browse" class="btn btn-outline-secondary">Clear</a>
+        {% endif %}
+    </div>
+</form>
+
+{% if search %}
+<p class="text-muted">{{ movies|length }} results for "{{ search }}"</p>
+{% endif %}
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for movie in movies %}
+    <div class="col">
+        <div class="card h-100 movie-card">
+            <div class="card-body">
+                <h6 class="card-title">{{ movie.title }}</h6>
+                <p class="card-text">
+                    <small class="text-muted">{{ movie.genres }}</small><br>
+                    <span class="text-warning">★</span> {{ "%.1f"|format(movie.avg_rating) }}
+                    <small class="text-muted">({{ movie.rating_count }} ratings)</small>
+                </p>
+                {% if movie.id in rated_ids %}
+                    <span class="badge bg-success">✓ Rated</span>
+                {% endif %}
+                <a href="/movie/{{ movie.id }}" class="btn btn-sm btn-outline-light mt-2 w-100">View</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

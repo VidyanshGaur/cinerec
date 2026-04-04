@@ -1,12 +1,16 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from flask import Flask
 from flask_login import LoginManager
-from models import db, User
-import os
+from backend.models import db, User
 
 def create_app():
-    app = Flask(__name__, template_folder='../frontend/templates',
+    app = Flask(__name__, 
+                template_folder='../frontend/templates',
                 static_folder='../frontend/static')
-    
+
     app.config['SECRET_KEY'] = 'sepm-rec-engine-secret'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rec_engine.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -21,9 +25,9 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    from routes.auth import auth_bp
-    from routes.movies import movies_bp
-    from routes.recommend import recommend_bp
+    from backend.routes.auth import auth_bp
+    from backend.routes.movies import movies_bp
+    from backend.routes.recommend import recommend_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(movies_bp)
