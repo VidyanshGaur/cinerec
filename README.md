@@ -1,70 +1,170 @@
 # 🎬 CineRec — Personalized Movie Recommendation Engine
 
-A web-based movie recommendation system built with Python and Flask that uses Machine Learning to suggest personalized content to users.
+A movie recommendation web application built using Python and Flask that provides personalized movie suggestions using machine learning techniques.
 
-> **SEPM Individual Project | The NorthCap University, Gurgaon**
-> Roll No: 23CSU342 | Vidyansh Gaur | B.Tech CSE (AI/ML) — 6th Semester
+The system combines Content-Based Filtering and Collaborative Filtering to generate hybrid recommendations based on user preferences and ratings.
 
-## 🚀 Features
-- User registration and login with bcrypt password hashing
-- Browse and search 1682 movies
+---
+
+## Features
+
+- User registration and login system
+- Secure password hashing with bcrypt
+- Browse and search through 1,682 movies
 - Rate movies on a 1–5 star scale
-- Content-Based Filtering — recommends similar movies based on genre
-- Collaborative Filtering — SVD model trained on MovieLens 100K (RMSE: 0.9352)
-- Hybrid Engine — 60% CF + 40% CBF weighted recommendations
-- Cold start handling for new users
+- Content-Based Filtering using genre similarity
+- Collaborative Filtering using SVD
+- Hybrid recommendation engine
+- Cold-start support for new users
+- Automated testing with pytest
 
-## 🛠️ Tech Stack
-- Backend: Python 3.13, Flask
-- Database: SQLite + SQLAlchemy
-- ML: scikit-learn, scikit-surprise, pandas, numpy
-- Frontend: HTML5, CSS3, Bootstrap 5
-- Auth: Flask-Login, bcrypt
-- Dataset: MovieLens 100K
-- Testing: pytest
+---
 
-## ⚙️ Setup & Run
+## Recommendation Flow
 
-### 1. Clone the repo
+```text
+User Ratings
+     ↓
+Collaborative Filtering (SVD)
+     +
+Content-Based Filtering (TF-IDF)
+     ↓
+Hybrid Recommendation Engine
+     ↓
+Top Personalized Movie Suggestions
+```
+
+---
+
+## Model & Dataset Information
+
+| Metric | Value |
+|---|---|
+| Dataset | MovieLens 100K |
+| Total Ratings | 100,000 |
+| Unique Users | 943 |
+| Unique Movies | 1,682 |
+| SVD RMSE | 0.9352 |
+| Dataset Sparsity | 93.7% |
+
+---
+
+## Tech Stack
+
+### Backend
+- Python
+- Flask
+- SQLAlchemy
+- SQLite
+
+### Machine Learning
+- scikit-learn
+- scikit-surprise
+- pandas
+- numpy
+
+### Frontend
+- HTML5
+- CSS3
+- Bootstrap 5
+
+### Authentication & Testing
+- Flask-Login
+- bcrypt
+- pytest
+
+---
+
+## Project Structure
+
+```bash
+recommendation-engine/
+│
+├── backend/
+├── data/
+├── frontend/
+├── instance/
+├── models/
+├── tests/
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## Setup
+
+### Clone Repository
+
+```bash
 git clone https://github.com/VidyanshGaur/recommendation-engine.git
 cd recommendation-engine
+```
 
-### 2. Create virtual environment
+### Create Virtual Environment
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
+```
 
-### 3. Install dependencies
+### Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-### 4. Load movies into database
+### Load Dataset
+
+```bash
 cd backend
 python load_data.py
+```
 
-### 5. Train ML models
+### Train Models
+
+```bash
 cd ..
 python models/train.py
+```
 
-### 6. Run the app
+### Run Application
+
+```bash
 cd backend
 python app.py
+```
 
-Open http://127.0.0.1:5000 in your browser.
+Open in browser:
 
-## 🧪 Run Tests
+```bash
+http://127.0.0.1:5000
+```
+
+---
+
+## Testing
+
+```bash
 pytest tests/ -v
-Results: 10/10 tests passing
+```
 
-## 🤖 How Recommendations Work
-User Ratings → Collaborative Filter (SVD) + Content-Based Filter (TF-IDF) → Hybrid Engine → Top 10 Recommendations
+10/10 test cases passing.
 
-## 📊 Dataset Stats
-- Total Ratings: 100,000
-- Unique Users: 943
-- Unique Movies: 1,682
-- Sparsity: 93.7%
+---
 
-## 🔮 Future Enhancements
-- Deep learning based recommendations
-- Real-time model retraining
-- Mobile responsive PWA
-- Deployment on Render/Railway
+## Future Improvements
+
+- Deep learning based recommendation models
+- Real-time recommendation updates
+- REST API integration
+- Docker support
+- Cloud deployment
+
+---
+
+## Author
+
+**Vidyansh Gaur**  
+B.Tech CSE (AI/ML)  
+The NorthCap University, Gurgaon
