@@ -153,6 +153,18 @@ pytest tests/ -v
 
 ---
 
+## Screenshots
+
+### Home Page
+![Home Page](https://github.com/user-attachments/assets/3e826b9a-6df9-4631-ad67-5ec7a10b2018)
+
+### Login Page
+![Login Page](https://github.com/user-attachments/assets/385f6fd7-9091-4fd6-a27d-2b41a4ad12a8)
+
+### Recommendations
+![Recommendations](https://github.com/user-attachments/assets/52ebd8ed-a9c2-4a41-8c61-491ef4144286)
+
+
 ## Future Improvements
 
 - Deep learning based recommendation models
