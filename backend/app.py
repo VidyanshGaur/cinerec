@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from flask import Flask
+from flask import Flask, app
 from flask_login import LoginManager
 from backend.models import db, User
 
@@ -12,7 +12,8 @@ def create_app():
                 static_folder='../frontend/static')
 
     app.config['SECRET_KEY'] = 'sepm-rec-engine-secret'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rec_engine.db'
+    import os
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'rec_engine.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
