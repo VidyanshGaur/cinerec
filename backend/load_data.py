@@ -3,7 +3,9 @@ import os
 sys.path.insert(0, os.path.dirname(__file__))
 
 from app import create_app
-from models import db, Movie
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from backend.models import db, Movie
 import pandas as pd
 
 app = create_app()
