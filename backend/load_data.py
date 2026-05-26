@@ -14,7 +14,8 @@ with app.app_context():
     db.create_all()
     
     # Load movies from u.item
-    movies_df = pd.read_csv('../data/u.item', sep='|', encoding='latin-1',
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+movies_df = pd.read_csv(os.path.join(BASE_DIR, 'data/u.item'), sep='|', encoding='latin-1',
                              header=None, usecols=range(24))
     
     genre_cols = [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
